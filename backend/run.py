@@ -2,6 +2,7 @@ from flask import Flask
 from extensions import db, jwt
 from flask_cors import CORS
 from routes.auth import auth_bp
+from routes.resume import resume_bp
 
 from config import Config
 
@@ -16,6 +17,7 @@ def create_app():
 
     CORS(app)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(resume_bp)
 
     @app.route("/")
     def home():

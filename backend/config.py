@@ -14,3 +14,13 @@ class Config:
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+    UPLOAD_FOLDER = os.path.join(
+        BASE_DIR,
+        "uploads",
+        "resumes"
+    )
+
+    MAX_CONTENT_LENGTH = 5 * 1024 * 1024
