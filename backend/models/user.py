@@ -38,6 +38,34 @@ class User(db.Model):
         cascade="all, delete-orphan"
     )
 
+    skills = db.relationship(
+        "Skill",
+        backref="user",
+        lazy=True,
+        cascade="all, delete-orphan"
+    )
+
+    projects = db.relationship(
+        "Project",
+        backref="user",
+        lazy=True,
+        cascade="all, delete-orphan"
+    )
+
+    educations = db.relationship(
+        "Education",
+        backref="user",
+        lazy=True,
+        cascade="all, delete-orphan"
+    )
+
+    experiences = db.relationship(
+        "Experience",
+        backref="user",
+        lazy=True,
+        cascade="all, delete-orphan"
+    )
+    
     def set_password(self, password):
         self.password = generate_password_hash(password)
 
