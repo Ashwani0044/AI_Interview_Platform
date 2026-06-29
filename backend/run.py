@@ -1,5 +1,5 @@
 from flask import Flask
-from extensions import db, jwt
+from extensions import db, jwt, migrate
 from flask_cors import CORS
 from routes.auth import auth_bp
 from routes.resume import resume_bp
@@ -14,6 +14,7 @@ def create_app():
 
     db.init_app(app)
     jwt.init_app(app)
+    migrate.init_app(app, db)
 
     CORS(app)
     app.register_blueprint(auth_bp)
@@ -26,6 +27,12 @@ def create_app():
         }
     
     from models.user import User
+    from models.resume import Resume
+    from models.skill import Skill
+    from models.project import Project
+    from models.projectTechnology import ProjectTechnology
+    from models.education import Education
+    from models.experience import Experience
 
     return app
 

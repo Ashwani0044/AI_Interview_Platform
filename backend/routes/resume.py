@@ -5,6 +5,7 @@ from flask import current_app
 from utils.file_helper import allowed_file, generate_unique_filename
 from models.resume import Resume
 from extensions import db
+from services.resume_services import ResumeParserService
 
 resume_bp = Blueprint(
     "resume",
@@ -41,6 +42,11 @@ def upload_resume():
         resume = Resume(user_id=user_id, original_filename=file.filename, stored_filename=unique_filename, file_path=filepath)
         db.session.add(resume)
         db.session.commit()
+        ResumeParserService.process_resume(
+            user_id=user_id,
+            resume_id=resume.id,
+            filepath=filepath
+        )
     except Exception as e:
         db.session.rollback()
 
