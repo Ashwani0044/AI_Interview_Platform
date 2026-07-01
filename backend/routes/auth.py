@@ -78,7 +78,7 @@ def login():
             "message": "Invalid email or password"
         }), 401
     
-    access_token = create_access_token(identity=user.id)
+    access_token = create_access_token(identity=str(user.id))
     
     return jsonify({
         "success": True,
@@ -96,9 +96,9 @@ def login():
 @auth_bp.route("/profile", methods=["GET"])
 @jwt_required()
 def profile():
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.filter_by(id=str(user_id)).first()
 
     if not user:
         return jsonify({

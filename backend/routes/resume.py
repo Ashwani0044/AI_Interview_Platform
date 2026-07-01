@@ -38,7 +38,7 @@ def upload_resume():
     try:
         file.save(filepath)
 
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         resume = Resume(user_id=user_id, original_filename=file.filename, stored_filename=unique_filename, file_path=filepath)
         db.session.add(resume)
         db.session.commit()

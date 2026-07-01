@@ -67,7 +67,7 @@ class AIService:
             raise ValueError("Resume text cannot be empty.")
         try:
             response = client.chat.completions.create(
-            model=os.getenv("OPENROUTER_MODEL"),
+                model=os.getenv("OPENROUTER_MODEL"),
                 messages=[
                         {
                             "role": "system",
@@ -78,10 +78,24 @@ class AIService:
                             "content": text
                         }
                     ],
+                response_format={
+                    "type": "json_object"
+                },
                 temperature=0,
                 max_tokens=500
             )
-            parsed_data = json.loads(response.choices[0].message.content)
+            print(response)
+            print("=" * 50)
+
+            content = response.choices[0].message.content
+
+            print("Content:", content)
+            print("Type:", type(content))
+
+            parsed_data = json.loads(content)
+            
+            # parsed_data = json.loads(response.choices[0].message.content)
+            # print(parsed_data)
         except Exception as e:
             raise Exception(f"OpenRouter API Error: {e}")
         
