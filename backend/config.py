@@ -24,3 +24,4 @@ class Config:
     )
 
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024
+    INTERVIEW_QUESTION_COUNT = 5

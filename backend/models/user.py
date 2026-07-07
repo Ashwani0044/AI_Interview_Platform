@@ -66,6 +66,13 @@ class User(db.Model):
         cascade="all, delete-orphan"
     )
     
+    interviews = db.relationship(
+        "Interview",
+        backref="user",
+        lazy=True,
+        cascade="all, delete-orphan"
+    )
+
     def set_password(self, password):
         self.password = generate_password_hash(password)
 

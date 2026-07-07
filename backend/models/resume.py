@@ -36,3 +36,10 @@ class Resume(db.Model):
         db.DateTime,    
         default=datetime.utcnow
     )
+
+    interviews = db.relationship(
+        "Interview",
+        backref="resume",
+        lazy=True,
+        cascade="all, delete-orphan"
+    )
