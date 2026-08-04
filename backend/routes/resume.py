@@ -1,3 +1,5 @@
+import traceback
+
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import os
@@ -6,6 +8,7 @@ from utils.file_helper import allowed_file, generate_unique_filename
 from models.resume import Resume
 from extensions import db
 from services.resume_services import ResumeParserService
+import traceback
 
 resume_bp = Blueprint(
     "resume",
@@ -17,7 +20,7 @@ resume_bp = Blueprint(
 @jwt_required()
 def upload_resume():
     
-    file = request.files.get("file")
+    file = request.files.get("resume")
 
     if not file:
         return jsonify({"error": "No file provided"}), 400
@@ -63,3 +66,33 @@ def upload_resume():
                         "stored_filename": resume.stored_filename,
                         "file_path": resume.file_path
                     }}), 201
+
+@resume_bp.route("", methods=["GET"])
+@jwt_required()
+def get_resumes():
+
+    user_id = get_jwt_identity()
+
+    try:
+
+        resumes = ResumeParserService.get_user_resumes(user_id)
+
+        return jsonify({
+
+            "success": True,
+
+            "resumes": resumes
+
+        }), 200
+
+    except Exception as e:
+
+        traceback.print_exc()
+
+        return jsonify({
+
+            "success": False,
+
+            "message": str(e)
+
+        }), 500

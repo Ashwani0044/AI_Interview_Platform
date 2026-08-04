@@ -123,3 +123,32 @@ class ResumeParserService:
             )
 
         db.session.add(experience)
+
+    @staticmethod
+    def get_user_resumes(user_id):
+
+        resumes = Resume.query.filter_by(
+
+            user_id=user_id
+
+        ).order_by(
+
+            Resume.created_at.desc()
+
+        ).all()
+
+        return [
+
+            {
+
+                "id": resume.id,
+
+                "filename": resume.original_filename,
+
+                "uploaded_at": resume.created_at.isoformat()
+
+            }
+
+            for resume in resumes
+
+        ]

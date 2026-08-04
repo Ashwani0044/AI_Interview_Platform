@@ -1,0 +1,145 @@
+.resume-page{
+
+    min-height:100vh;
+
+    background-image: radial-gradient(circle, #051937, #003150, #00484f, #005c34, #4a6a02);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px;
+
+}
+
+.upload-card{
+
+    width:700px;
+
+    background:#405779;
+
+    border-radius:20px;
+
+    padding:40px;
+
+}
+
+.upload-card h1{
+
+    text-align:center;
+
+    margin-bottom:10px;
+
+}
+
+.upload-card>p{
+
+    text-align:center;
+
+    color:#c2cad5;
+
+    margin-bottom:35px;
+
+}
+
+.upload-box{
+
+    border:2px dashed #1b72ff;
+
+    border-radius:16px;
+
+    padding:60px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.upload-box:hover{
+
+    background:#4e5c73;
+
+}
+
+.upload-box h2{
+
+    font-size:60px;
+
+    margin-bottom:20px;
+
+}
+
+.upload-box h3{
+
+    margin-bottom:10px;
+
+}
+
+.upload-box p{
+
+    color:#94a3b8;
+
+}
+
+.selected-file{
+
+    margin-top:25px;
+
+    background:#0f172a;
+
+    padding:18px;
+
+    border-radius:12px;
+
+}
+
+.selected-file p{
+
+    color:#659bf1;
+
+    margin-top:8px;
+
+}
+
+.upload-card button{
+
+    margin-top:25px;
+
+    width:100%;
+
+    border:none;
+
+    background:#1c64ff;
+
+    color:white;
+
+    padding:16px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    transition:.3s;
+
+}
+
+.upload-card button:hover{
+
+    background:#1d4ed8;
+
+}
+
+.upload-card button:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+}

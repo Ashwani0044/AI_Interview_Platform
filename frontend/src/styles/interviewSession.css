@@ -1,0 +1,133 @@
+.session-page{
+
+    min-height:100vh;
+
+    background:#0f172a;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px;
+
+}
+
+.session-card{
+
+    width:850px;
+
+    background:#1e293b;
+
+    border-radius:20px;
+
+    padding:40px;
+
+}
+
+.progress{
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+}
+
+.progress-bar{
+
+    width:100%;
+
+    height:8px;
+
+    background:#334155;
+
+    border-radius:20px;
+
+    margin-bottom:30px;
+
+}
+
+.progress-fill{
+
+    height:100%;
+
+    background:#2563eb;
+
+    border-radius:20px;
+
+    transition:.3s;
+
+}
+
+.session-card h2{
+
+    margin-bottom:25px;
+
+    line-height:1.5;
+
+}
+
+.session-card textarea{
+
+    width:100%;
+
+    resize:none;
+
+    border-radius:10px;
+
+    padding:18px;
+
+    background:#0f172a;
+
+    border:1px solid #334155;
+
+    color:white;
+
+    font-size:15px;
+
+    outline:none;
+
+}
+
+.buttons{
+
+    margin-top:30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+}
+
+.buttons button{
+
+    padding:14px 28px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-size:15px;
+
+}
+
+.buttons button:hover{
+
+    background:#1d4ed8;
+
+}
+
+.buttons button:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+
+}
