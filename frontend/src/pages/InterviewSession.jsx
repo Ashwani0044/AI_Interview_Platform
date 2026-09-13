@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import api from "../services/api";
+import { submitInterview as submitInterviewRequest } from "../services/interviewService";
 
 import "../styles/interviewSession.css";
 
@@ -12,29 +12,43 @@ export default function InterviewSession() {
     const interview = location.state?.interview;
     const questions = location.state?.questions;
 
-    if (!interview || !questions) {
-        navigate("/dashboard");
-        return null;
-    }
+    const validSession = interview && Array.isArray(questions) && questions.length > 0;
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
 
     const [answers, setAnswers] = useState(
-        questions.map(q => ({
+        (questions || []).map(q => ({
             question_id: q.id,
             answer: ""
         }))
     );
 
+    const [loading, setLoading] = useState(false);
+
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+
+        if (!validSession) {
+            navigate("/dashboard", { replace: true });
+        }
+
+    }, [navigate, validSession]);
+
+    if (!validSession) {
+        return null;
+    }
+
     const question = questions[currentQuestion];
 
     function handleAnswerChange(e) {
 
-        const updatedAnswers = [...answers];
-
-        updatedAnswers[currentQuestion].answer = e.target.value;
-
-        setAnswers(updatedAnswers);
+        setError("");
+        setAnswers((currentAnswers) => currentAnswers.map((answer, index) =>
+            index === currentQuestion
+                ? { ...answer, answer: e.target.value }
+                : answer
+        ));
 
     }
 
@@ -60,25 +74,26 @@ export default function InterviewSession() {
 
     async function submitInterview() {
 
+        if (answers.some((answer) => !answer.answer.trim())) {
+
+            setError("Please answer every question before submitting.");
+
+            return;
+
+        }
+
         try {
 
-            const response = await api.post(
+            setLoading(true);
+            setError("");
 
-                `/interview/submit/${interview.id}`,
-
-                {
-
-                    answers
-
-                }
-
-            );
+            const response = await submitInterviewRequest(interview.id, { answers });
 
             navigate("/evaluation", {
 
                 state: {
 
-                    evaluation: response.data.evaluation
+                    evaluation: response.evaluation
 
                 }
 
@@ -88,9 +103,17 @@ export default function InterviewSession() {
 
         catch (err) {
 
-            console.log(err);
+            console.error(err);
+            setError(
+                err.response?.data?.message ||
+                "Failed to submit the interview. Please try again."
+            );
 
-            alert("Failed to submit interview.");
+        }
+
+        finally {
+
+            setLoading(false);
 
         }
 
@@ -107,6 +130,8 @@ export default function InterviewSession() {
                     Question {currentQuestion + 1} / {questions.length}
 
                 </div>
+
+                {error && <p className="form-error">{error}</p>}
 
                 <div className="progress-bar">
 
@@ -140,6 +165,8 @@ export default function InterviewSession() {
 
                     onChange={handleAnswerChange}
 
+                    disabled={loading}
+
                 />
 
                 <div className="buttons">
@@ -162,15 +189,15 @@ export default function InterviewSession() {
 
                         ?
 
-                        <button onClick={submitInterview}>
+                        <button onClick={submitInterview} disabled={loading}>
 
-                            Submit Interview
+                            {loading ? "Submitting..." : "Submit Interview"}
 
                         </button>
 
                         :
 
-                        <button onClick={nextQuestion}>
+                        <button onClick={nextQuestion} disabled={loading}>
 
                             Next
 

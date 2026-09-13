@@ -2,7 +2,7 @@
 
     min-height:100vh;
 
-    background-image: radial-gradient(circle, #051937, #003150, #00484f, #005c34, #4a6a02);
+    background:linear-gradient(135deg, var(--mint), #f5f2e8);
 
     display:flex;
 
@@ -18,9 +18,11 @@
 
     width:700px;
 
-    background:#405779;
+    background:var(--paper);
 
-    border-radius:20px;
+    border-radius:4px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
 
     padding:40px;
 
@@ -38,7 +40,7 @@
 
     text-align:center;
 
-    color:#c2cad5;
+    color:var(--muted);
 
     margin-bottom:35px;
 
@@ -46,9 +48,9 @@
 
 .upload-box{
 
-    border:2px dashed #1b72ff;
+    border:2px dashed var(--green);
 
-    border-radius:16px;
+    border-radius:4px;
 
     padding:60px;
 
@@ -62,7 +64,7 @@
 
 .upload-box:hover{
 
-    background:#4e5c73;
+    background:var(--mint);
 
 }
 
@@ -82,7 +84,7 @@
 
 .upload-box p{
 
-    color:#94a3b8;
+    color:var(--muted);
 
 }
 
@@ -90,17 +92,18 @@
 
     margin-top:25px;
 
-    background:#0f172a;
+    background:var(--mint);
+    border:1px solid var(--line);
 
     padding:18px;
 
-    border-radius:12px;
+    border-radius:4px;
 
 }
 
 .selected-file p{
 
-    color:#659bf1;
+    color:var(--forest);
 
     margin-top:8px;
 
@@ -114,9 +117,9 @@
 
     border:none;
 
-    background:#1c64ff;
+    background:var(--forest);
 
-    color:white;
+    color:var(--paper);
 
     padding:16px;
 
@@ -132,7 +135,7 @@
 
 .upload-card button:hover{
 
-    background:#1d4ed8;
+    background:var(--forest-dark);
 
 }
 

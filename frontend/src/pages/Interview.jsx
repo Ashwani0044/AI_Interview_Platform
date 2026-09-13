@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { startInterview } from "../services/interviewService";
+import { getResumes } from "../services/resumeService";
 
 import "../styles/interview.css";
 
@@ -11,11 +12,19 @@ export default function Interview() {
 
     const location = useLocation();
 
-    const resumeId = location.state?.resumeId;
+    const resumeIdFromNavigation = location.state?.resumeId;
 
     const [loading, setLoading] = useState(false);
 
+    const [resumes, setResumes] = useState([]);
+
+    const [resumesLoading, setResumesLoading] = useState(true);
+
+    const [error, setError] = useState("");
+
     const [formData, setFormData] = useState({
+
+        resumeId: resumeIdFromNavigation || "",
 
         role: "",
 
@@ -23,7 +32,49 @@ export default function Interview() {
 
     });
 
+    useEffect(() => {
+
+        async function loadResumes() {
+
+            try {
+
+                const response = await getResumes();
+                const availableResumes = response.resumes || [];
+
+                setResumes(availableResumes);
+
+                if (!resumeIdFromNavigation && availableResumes.length > 0) {
+
+                    setFormData((current) => ({
+
+                        ...current,
+
+                        resumeId: availableResumes[0].id
+
+                    }));
+
+                }
+
+            } catch (err) {
+
+                console.error(err);
+                setError("We could not load your resumes. Please try again.");
+
+            } finally {
+
+                setResumesLoading(false);
+
+            }
+
+        }
+
+        loadResumes();
+
+    }, [resumeIdFromNavigation]);
+
     function handleChange(e) {
+
+        setError("");
 
         setFormData({
 
@@ -35,11 +86,21 @@ export default function Interview() {
 
     }
 
-    async function handleStart() {
+    async function handleStart(e) {
 
-        if (!formData.role) {
+        e.preventDefault();
 
-            alert("Please enter a job role.");
+        if (!formData.resumeId) {
+
+            setError("Select a resume before starting the interview.");
+
+            return;
+
+        }
+
+        if (!formData.role.trim()) {
+
+            setError("Enter the role you want to practice for.");
 
             return;
 
@@ -51,15 +112,23 @@ export default function Interview() {
 
             const response = await startInterview({
 
-                resume_id: resumeId,
+                resume_id: Number(formData.resumeId),
 
-                role: formData.role,
+                role: formData.role.trim(),
 
                 difficulty: formData.difficulty
 
             });
 
-            console.log(response);
+            const questions = response.questions?.questions || response.questions || [];
+
+            if (!response.interview || questions.length === 0) {
+
+                setError("The interview could not be prepared. Please try again.");
+
+                return;
+
+            }
 
             navigate("/session", {
 
@@ -67,7 +136,7 @@ export default function Interview() {
 
                     interview: response.interview,
 
-                    questions: response.questions
+                    questions
 
                 }
 
@@ -77,9 +146,12 @@ export default function Interview() {
 
         catch (err) {
 
-            console.log(err);
+            console.error(err);
 
-            alert("Failed to start interview.");
+            setError(
+                err.response?.data?.message ||
+                "Failed to start the interview. Please try again."
+            );
 
         }
 
@@ -109,6 +181,46 @@ export default function Interview() {
 
                 </p>
 
+                {error && <p className="form-error">{error}</p>}
+
+                <form onSubmit={handleStart}>
+
+                <label>
+
+                    Resume
+
+                </label>
+
+                <select
+
+                    name="resumeId"
+
+                    value={formData.resumeId}
+
+                    onChange={handleChange}
+
+                    disabled={resumesLoading || loading || resumes.length === 0}
+
+                >
+
+                    <option value="">
+
+                        {resumesLoading ? "Loading resumes..." : "Select a resume"}
+
+                    </option>
+
+                    {resumes.map((resume) => (
+
+                        <option key={resume.id} value={resume.id}>
+
+                            {resume.original_filename || `Resume ${resume.id}`}
+
+                        </option>
+
+                    ))}
+
+                </select>
+
                 <label>
 
                     Job Role
@@ -127,6 +239,8 @@ export default function Interview() {
 
                     onChange={handleChange}
 
+                    disabled={loading}
+
                 />
 
                 <label>
@@ -142,6 +256,8 @@ export default function Interview() {
                     value={formData.difficulty}
 
                     onChange={handleChange}
+
+                    disabled={loading}
 
                 >
 
@@ -167,9 +283,9 @@ export default function Interview() {
 
                 <button
 
-                    onClick={handleStart}
+                    type="submit"
 
-                    disabled={loading}
+                    disabled={loading || resumesLoading || resumes.length === 0}
 
                 >
 
@@ -188,6 +304,18 @@ export default function Interview() {
                     }
 
                 </button>
+
+                </form>
+
+                {resumes.length === 0 && !resumesLoading && (
+
+                    <p className="empty-hint">
+
+                        Upload a resume before starting an interview.
+
+                    </p>
+
+                )}
 
             </div>
 

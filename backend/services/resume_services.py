@@ -108,7 +108,7 @@ class ResumeParserService:
                 year=education_data.get("year")
             )
 
-        db.session.add(education)
+            db.session.add(education)
 
     @staticmethod
     def save_experience(user_id, experiences):
@@ -122,7 +122,7 @@ class ResumeParserService:
                 description=experience_data.get("description")
             )
 
-        db.session.add(experience)
+            db.session.add(experience)
 
     @staticmethod
     def get_user_resumes(user_id):
@@ -133,7 +133,7 @@ class ResumeParserService:
 
         ).order_by(
 
-            Resume.created_at.desc()
+            Resume.uploaded_at.desc()
 
         ).all()
 
@@ -145,7 +145,7 @@ class ResumeParserService:
 
                 "filename": resume.original_filename,
 
-                "uploaded_at": resume.created_at.isoformat()
+                "uploaded_at": resume.uploaded_at.isoformat()
 
             }
 

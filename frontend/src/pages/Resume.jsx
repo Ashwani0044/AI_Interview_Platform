@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { uploadResume } from "../services/resumeService";
 import api from "../services/api";
 
 import "../styles/resume.css";

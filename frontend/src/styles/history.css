@@ -1,0 +1,170 @@
+.history-page {
+    min-height: 100vh;
+    padding: 48px 24px;
+    background: linear-gradient(135deg, var(--mint), #f5f2e8);
+}
+
+.history-shell {
+    width: min(1000px, 100%);
+    margin: 0 auto;
+}
+
+.history-heading,
+.details-heading,
+.history-item,
+.history-item-meta {
+    display: flex;
+    align-items: center;
+}
+
+.history-heading,
+.details-heading {
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.history-heading {
+    margin-bottom: 28px;
+}
+
+.history-heading h1 {
+    margin-top: 6px;
+    font-size: 34px;
+}
+
+.eyebrow {
+    color: var(--forest);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.history-heading button,
+.history-item button,
+.close-button {
+    padding: 11px 16px;
+    border: 0;
+    border-radius: 4px;
+    background: var(--forest);
+    color: var(--paper);
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.history-list,
+.interview-details {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+}
+
+.history-item {
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--line);
+}
+
+.history-item:last-child {
+    border-bottom: 0;
+}
+
+.history-item h2 {
+    font-size: 18px;
+}
+
+.history-item p,
+.history-message p,
+.detail-question p {
+    margin-top: 7px;
+    color: var(--muted);
+}
+
+.history-item-meta {
+    justify-content: flex-end;
+    gap: 14px;
+}
+
+.history-item-meta strong {
+    min-width: 52px;
+    color: var(--forest);
+}
+
+.status {
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: var(--mint);
+    color: var(--forest);
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.status-completed {
+    background: var(--green-soft);
+    color: var(--forest-dark);
+}
+
+.history-message {
+    padding: 70px 24px;
+    border: 1px dashed var(--green);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.history-message h2 {
+    font-size: 22px;
+}
+
+.interview-details {
+    margin-top: 24px;
+    padding: 24px;
+}
+
+.detail-question {
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+}
+
+.detail-question h3 {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.detail-question span {
+    display: block;
+    margin-top: 10px;
+    color: var(--forest);
+    font-size: 14px;
+}
+
+.close-button {
+    background: var(--muted);
+}
+
+.form-error {
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    border: 1px solid #c56c5f;
+    border-radius: 4px;
+    background: #f9e5e1;
+    color: #81251d;
+}
+
+@media (max-width: 720px) {
+    .history-page {
+        padding: 28px 16px;
+    }
+
+    .history-heading,
+    .history-item,
+    .details-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .history-item-meta {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+}

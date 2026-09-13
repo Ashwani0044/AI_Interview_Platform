@@ -7,8 +7,7 @@ import {
     Mic,
     Star,
     Upload,
-    ArrowRight,
-    LogOut
+    ArrowRight
 } from "lucide-react";
 
 import { getResumes } from "../services/resumeService";
@@ -18,7 +17,7 @@ import "../styles/dashboard.css";
 
 export default function Dashboard() {
 
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
 
     const navigate = useNavigate();
 
@@ -88,50 +87,9 @@ export default function Dashboard() {
 
     }
 
-    function handleLogout() {
-
-        logout();
-
-        navigate("/login");
-
-    }
-
     return (
 
         <div className="dashboard">
-
-            {/* ================= NAVBAR ================= */}
-
-            <nav className="navbar">
-
-                <h2>
-
-                    AI Interview
-
-                </h2>
-
-                <div className="nav-right">
-
-                    <span>
-
-                        Hi, {user?.name}
-
-                    </span>
-
-                    <button
-                        className="logout-btn"
-                        onClick={handleLogout}
-                    >
-
-                        <LogOut size={18} />
-
-                        Logout
-
-                    </button>
-
-                </div>
-
-            </nav>
 
             {/* ================= HERO ================= */}
 

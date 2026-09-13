@@ -36,7 +36,7 @@ class AIService:
                     "type": "json_object"
                 },
                 temperature=0,
-                max_tokens=500
+                max_tokens=1000
             )
             print(response)
             print("=" * 50)
@@ -47,16 +47,12 @@ class AIService:
             print("Type:", type(content))
 
             parsed_data = json.loads(content)
-            
-            # parsed_data = json.loads(response.choices[0].message.content)
-            # print(parsed_data)
-        except Exception as e:
-            raise Exception(f"OpenRouter API Error: {e}")
-        
-        try:
             return parsed_data
+            
         except json.JSONDecodeError:
             raise Exception("Failed to parse JSON from OpenRouter response.")
+        except Exception as e:
+            raise Exception(f"OpenRouter API Error: {e}")
         
     @staticmethod
     def generate_questions(candidate_profile):
@@ -77,25 +73,16 @@ class AIService:
                     "type": "json_object"
                 },
                 temperature=0,
-                max_tokens=500
+                max_tokens=1500
             )
             content = response.choices[0].message.content
-            # print("=" * 80)
-            # print("RAW AI RESPONSE")
-            # print(content)
-            # print("=" * 80)
-
-            # print("Finish Reason:", response.choices[0].finish_reason)
-            # print("Message:", response.choices[0].message)
-            # print("Content:", repr(response.choices[0].message.content))
             parsed_data = json.loads(content)
-        except Exception as e:
-            raise Exception(f"OpenRouter API Error: {e}")
-
-        try:
             return parsed_data
+            
         except json.JSONDecodeError:
             raise Exception("Failed to parse JSON from OpenRouter response.")
+        except Exception as e:
+            raise Exception(f"OpenRouter API Error: {e}")
         
     @staticmethod
     def evaluate_answers(interview_data):
@@ -123,7 +110,7 @@ class AIService:
                     "type": "json_object"
                 },
                 temperature=0,
-                max_tokens=600
+                max_tokens=2000
             )
 
             content = response.choices[0].message.content
@@ -132,13 +119,11 @@ class AIService:
                 raise Exception("OpenRouter returned an empty response.")
 
             parsed_data = json.loads(content)
-
             return parsed_data
 
         except json.JSONDecodeError:
             raise Exception(
                 "Failed to parse JSON from OpenRouter response."
             )
-
         except Exception as e:
             raise Exception(f"OpenRouter API Error: {e}")

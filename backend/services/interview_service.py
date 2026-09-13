@@ -155,6 +155,7 @@ class InterviewService:
             if not question.answers:
                 continue
 
+            # Fixed: extract the first element from the relationship list
             answer = question.answers[0]
 
             answer_map[question.question_order] = answer
@@ -233,6 +234,7 @@ class InterviewService:
 
         for question in questions:
 
+            # Fixed: safe lookup using the first element index from the answers relationship list
             answer = question.answers[0] if question.answers else None
 
             question_list.append({
@@ -252,12 +254,12 @@ class InterviewService:
             "difficulty": interview.difficulty,
             "status": interview.status,
             "overall_score": interview.overall_score,
-            "created_at": interview.created_at.isoformat(),
+            "created_at": interview.created_at.isoformat() if interview.created_at else None,
             "questions": question_list
         }
     
     @staticmethod
-    def get_interview_history(user_id):
+    def get_user_interview_history(user_id):
 
         interviews = Interview.query.filter_by(
             user_id=user_id
@@ -281,7 +283,7 @@ class InterviewService:
 
                 "overall_score": interview.overall_score,
 
-                "created_at": interview.created_at.isoformat()
+                "created_at": interview.created_at.isoformat() if interview.created_at else None
 
             })
 

@@ -10,13 +10,15 @@ import Interview from "./pages/Interview";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
 import InterviewSession from "./pages/InterviewSession";
+import Evaluation from "./pages/Evaluation";
+import DashboardLayout from "./layouts/DashboardLayout";
 
 function ProtectedRoute({ children }) {
 
     const { isAuthenticated } = useAuth();
 
     return isAuthenticated
-        ? children
+        ? <DashboardLayout>{children}</DashboardLayout>
         : <Navigate to="/login" replace />;
 
 }
@@ -121,6 +123,15 @@ export default function App() {
                 element={
                     <ProtectedRoute>
                         <InterviewSession />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/evaluation"
+                element={
+                    <ProtectedRoute>
+                        <Evaluation />
                     </ProtectedRoute>
                 }
             />
